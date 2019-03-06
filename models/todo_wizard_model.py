@@ -10,3 +10,9 @@ class TodoWizard(models.TransientModel):
     new_user_id = fields.Many2one(
         'res.users',
         string='Responsible to Set')
+
+    @api.model
+    def default_get(self, field_names):
+        defaults = super(TodoWizard, self).default_get(field_names)
+        defaults['task_ids'] = self.env.context['active_ids']
+        return defaults
